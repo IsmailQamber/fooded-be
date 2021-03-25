@@ -36,6 +36,22 @@ module.exports = (sequelize, DataTypes) => {
     image: {
       type: DataTypes.STRING,
     },
+    house: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    road: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    block: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    city: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   });
   SequelizeSlugify.slugifyModel(User, {
     source: ["username"],
