@@ -4,6 +4,7 @@ const db = require("./db/models");
 const userRoutes = require("./routes/user");
 const passport = require("passport");
 const { localStrategy, jwtStrategy } = require("./middleware/passport");
+const path = require("path");
 
 const app = express();
 const PORT = 8000;
@@ -14,6 +15,10 @@ app.use(cors());
 app.use(passport.initialize());
 passport.use(localStrategy);
 passport.use(jwtStrategy);
+
+//Routes
+app.use("/media", express.static(path.join(__dirname, "media")));
+app.use(userRoutes);
 
 //Handle 404
 app.use((req, res, next) => {
@@ -27,9 +32,6 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500);
   res.json({ message: err.message });
 });
-
-//Routes
-app.use(userRoutes);
 
 //Sync DB and listen to port
 const run = async () => {
