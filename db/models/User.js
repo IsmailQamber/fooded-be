@@ -34,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: false,
     },
   });
-  SequelizeSlugify.slugifyModel(Recipe, {
+  SequelizeSlugify.slugifyModel(User, {
     source: ["username"],
   });
   return User;
