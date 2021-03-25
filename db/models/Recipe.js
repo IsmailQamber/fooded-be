@@ -6,14 +6,14 @@ module.exports = (sequelize, DataTypes) => {
       unique: true,
     },
     name: {
-      type: DataType.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
     },
     description: {
-      type: DataType.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
     },
-    ingredientDescription: { type: DataType.STRING, allowNull: false },
+    ingredientDescription: { type: DataTypes.STRING, allowNull: false },
   });
   SequelizeSlugify.slugifyModel(Recipe, {
     source: ["name"],
