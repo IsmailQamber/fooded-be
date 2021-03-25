@@ -6,31 +6,31 @@ module.exports = (sequelize, DataTypes) => {
       unique: true,
     },
     username: {
-      type: DataType.STRING,
+      type: DataTypes.STRING,
       unique: true,
       allowNull: false,
     },
     password: {
-      type: DataType.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
     },
     firstName: {
-      type: DataType.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
     },
     lastName: {
-      type: DataType.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
     },
     phoneNumber: {
-      type: DataType.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
       validate: {
         len: [8, 10],
       },
     },
     isChef: {
-      type: DataType.BOOLEAN,
+      type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
   });
