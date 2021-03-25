@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DATEONLY,
       validate: {
         DateValidate(value) {
-          if (Date.now() > value) {
+          if (value > Date.now()) {
             throw new Error("Session date should be after today");
           }
         },
