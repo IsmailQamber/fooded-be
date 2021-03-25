@@ -20,6 +20,9 @@ exports.listRecipes = async (req, res, next) => {
 
 exports.addRecipe = async (req, res, next) => {
   try {
+    if (req.file) {
+      req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
+    }
     const newRecipe = await Recipe.create(req.body);
     res.status(201);
     res.json(newRecipe);
@@ -30,6 +33,9 @@ exports.addRecipe = async (req, res, next) => {
 
 exports.updateRecipe = async (req, res, next) => {
   try {
+    if (req.file) {
+      req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
+    }
     const updatedRecipe = await req.recipe.update(req.body);
     res.status(204);
     res.json(updatedRecipe);
