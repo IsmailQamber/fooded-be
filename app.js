@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const db = require("./db/models");
 const userRoutes = require("./routes/user");
+const recipeRoutes = require("./routes/recipe");
 const passport = require("passport");
 const { localStrategy, jwtStrategy } = require("./middleware/passport");
 const path = require("path");
@@ -17,8 +18,9 @@ passport.use(localStrategy);
 passport.use(jwtStrategy);
 
 //Routes
-app.use("/media", express.static(path.join(__dirname, "media")));
 app.use(userRoutes);
+app.use("/recipes", recipeRoutes);
+app.use("/media", express.static(path.join(__dirname, "media")));
 
 //Handle 404
 app.use((req, res, next) => {
