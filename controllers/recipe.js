@@ -37,8 +37,7 @@ exports.updateRecipe = async (req, res, next) => {
       req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
     }
     const updatedRecipe = await req.recipe.update(req.body);
-    res.status(204);
-    res.json(updatedRecipe);
+    res.status(200).json(updatedRecipe);
   } catch (error) {
     next(error);
   }
