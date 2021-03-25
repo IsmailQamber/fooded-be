@@ -5,6 +5,9 @@ const { JWT_SECRET, JWT_EXPIRATION_MS } = require("../config/keys");
 
 exports.signup = async (req, res, next) => {
   try {
+    if (req.file) {
+      req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
+    }
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
     req.body.password = hashedPassword;
@@ -48,6 +51,9 @@ exports.userFetch = async (req, res, next) => {
 // *B
 exports.userUpdate = async (req, res, next) => {
   try {
+    if (req.file) {
+      req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
+    }
     const user = req.user;
     await req.user.update(req.body);
     const payload = {
