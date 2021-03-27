@@ -43,10 +43,10 @@ Object.keys(db).forEach((modelName) => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-// db.Airline.hasMany(db.Flight, { as: "flights", foreignKey: "airlineId" });
-// db.Flight.belongsTo(db.Airline, { as: "airline" });
-
 db.Chef.hasMany(db.Recipe, { as: "recipes", foreignKey: "chefId" });
 db.Recipe.belongsTo(db.Chef, { as: "chef" });
+
+db.User.hasOne(db.Chef, { as: "chef", foreignKey: "userId" });
+db.Chef.belongsTo(db.User, { as: "user" });
 
 module.exports = db;
