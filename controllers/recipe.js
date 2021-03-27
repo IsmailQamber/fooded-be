@@ -43,6 +43,15 @@ exports.updateRecipe = async (req, res, next) => {
   }
 };
 
+exports.detailRecipe = async (req, res, next) => {
+  try {
+    const detailRecipe = await req.recipe;
+    res.status(200).json(detailRecipe);
+  } catch (error) {
+    next(error);
+  }
+};
+
 exports.removeRecipe = async (req, res, next) => {
   try {
     await req.recipe.destroy();

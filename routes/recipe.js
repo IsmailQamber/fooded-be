@@ -8,6 +8,7 @@ const {
   addRecipe,
   updateRecipe,
   removeRecipe,
+  detailRecipe,
 } = require("../controllers/recipe");
 
 router.param("recipeId", async (req, res, next, recipeId) => {
@@ -27,5 +28,7 @@ router.post("/", upload.single("image"), addRecipe);
 router.put("/:recipeId", upload.single("image"), updateRecipe);
 
 router.delete("/:recipeId", removeRecipe);
+
+router.get("/:recipeId", detailRecipe);
 
 module.exports = router;
