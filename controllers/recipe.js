@@ -1,3 +1,4 @@
+const { Op } = require("sequelize");
 const { Recipe } = require("../db/models");
 
 exports.fetchRecipes = async (recipeId, next) => {
@@ -11,6 +12,18 @@ exports.fetchRecipes = async (recipeId, next) => {
 exports.listRecipes = async (req, res, next) => {
   try {
     const recipes = await Recipe.findAll();
+    res.status(200);
+    res.json(recipes);
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.searchRecipes = async (req, res, next) => {
+  try {
+    const recipes = await Recipe.findAll({
+      where: { name: { [Op.iLike]: `%${req.body.name}%` } },
+    });
     res.status(200);
     res.json(recipes);
   } catch (error) {
