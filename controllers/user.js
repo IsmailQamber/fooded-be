@@ -33,6 +33,12 @@ exports.signin = (req, res) => {
     username: user.username,
     userType: user.userType,
     email: user.email,
+    lastName: user.lastName,
+    phoneNumber: user.phoneNumber,
+    house: user.house,
+    road: user.road,
+    block: user.block,
+    city: user.city,
 
     exp: Date.now() + JWT_EXPIRATION_MS,
   };
@@ -60,6 +66,13 @@ exports.userUpdate = async (req, res, next) => {
       id: user.id,
       username: user.username,
       email: user.email,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      phoneNumber: user.phoneNumber,
+      house: user.house,
+      road: user.road,
+      block: user.block,
+      city: user.city,
       exp: Date.now() + JWT_EXPIRATION_MS,
     };
     const token = jwt.sign(JSON.stringify(payload), JWT_SECRET);

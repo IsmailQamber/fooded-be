@@ -52,6 +52,12 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    email: {
+      type: DataTypes.STRING,
+      validate: {
+        isEmail: true,
+      },
+    },
   });
   SequelizeSlugify.slugifyModel(User, {
     source: ["username"],
