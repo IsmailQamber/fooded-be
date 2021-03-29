@@ -25,4 +25,6 @@ router.get(
   controller.userFetch
 );
 
+router.get("/users", controller.listUsers);
+
 module.exports = router;
