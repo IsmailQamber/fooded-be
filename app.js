@@ -4,7 +4,7 @@ const db = require("./db/models");
 const userRoutes = require("./routes/user");
 const recipeRoutes = require("./routes/recipe");
 const sessionRoutes = require("./routes/session");
-const chefRoutes = require("./routes/chef");
+const chefRoutes = require("./routes/chefs");
 const passport = require("passport");
 const { localStrategy, jwtStrategy } = require("./middleware/passport");
 const path = require("path");
@@ -21,7 +21,7 @@ passport.use(jwtStrategy);
 
 //Routes
 app.use(userRoutes);
-app.use("/chefs", chefsRoutes);
+app.use("/chefs", chefRoutes);
 app.use("/recipes", recipeRoutes);
 app.use("/sessions", sessionRoutes);
 app.use("/chefs", chefRoutes);

@@ -7,6 +7,7 @@ const {
   addSession,
   updateSession,
   removeSession,
+  searchSession,
 } = require("../controllers/session");
 
 router.param("sessionId", async (req, res, next, sessionId) => {
@@ -26,5 +27,7 @@ router.post("/", addSession);
 router.put("/:sessionId", updateSession);
 
 router.delete("/:sessionId", removeSession);
+
+router.post("/search", searchSession);
 
 module.exports = router;

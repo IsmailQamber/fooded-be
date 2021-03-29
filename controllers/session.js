@@ -1,4 +1,5 @@
 const { Session } = require("../db/models");
+const { Op } = require("sequelize");
 
 exports.fetchSessions = async (sessionId, next) => {
   try {
@@ -43,6 +44,19 @@ exports.removeSession = async (req, res, next) => {
     await req.session.destroy();
     res.status(204);
     res.end();
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.searchSession = async (req, res, next) => {
+  try {
+    console.log(req.body.date);
+    const chefs = await Session.findAll({
+      where: { date: { [Op.eq]: `%${req.body.date}%` } },
+    });
+    res.status(200);
+    res.json(chefs);
   } catch (error) {
     next(error);
   }
