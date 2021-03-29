@@ -81,3 +81,12 @@ exports.userUpdate = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.usersList = async (req, res, next) => {
+  try {
+    const users = await User.findAll();
+    res.status(200).json(users);
+  } catch (error) {
+    next(error);
+  }
+};
