@@ -82,10 +82,11 @@ exports.userUpdate = async (req, res, next) => {
   }
 };
 
-exports.usersList = async (req, res, next) => {
+exports.listUsers = async (req, res, next) => {
   try {
     const users = await User.findAll();
-    res.status(200).json(users);
+    res.status(200);
+    res.json(users);
   } catch (error) {
     next(error);
   }

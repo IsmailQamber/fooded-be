@@ -4,7 +4,7 @@ const db = require("./db/models");
 const userRoutes = require("./routes/user");
 const recipeRoutes = require("./routes/recipe");
 const sessionRoutes = require("./routes/session");
-const chefsRoutes = require("./routes/chefs");
+const chefRoutes = require("./routes/chef");
 const passport = require("passport");
 const { localStrategy, jwtStrategy } = require("./middleware/passport");
 const path = require("path");
@@ -24,6 +24,7 @@ app.use(userRoutes);
 app.use("/chefs", chefsRoutes);
 app.use("/recipes", recipeRoutes);
 app.use("/sessions", sessionRoutes);
+app.use("/chefs", chefRoutes);
 app.use("/media", express.static(path.join(__dirname, "media")));
 
 //Handle 404
