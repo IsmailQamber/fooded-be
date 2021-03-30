@@ -1,5 +1,5 @@
 const { Op } = require("sequelize");
-const { Chef } = require("../db/models");
+const { Chef, Recipe } = require("../db/models");
 
 exports.fetchChefs = async (chefId, next) => {
   try {
@@ -69,6 +69,44 @@ exports.removeChef = async (req, res, next) => {
     await req.chef.destroy();
     res.status(204);
     res.end();
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.addRecipe = async (req, res, next) => {
+  try {
+    if (req.user.id === req.chef.userId) {
+      if (req.file) {
+        req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
+      }
+      console.log(req.body.image);
+      const newRecipe = await Recipe.create(req.body);
+      res.status(201);
+      res.json(newRecipe);
+    } else {
+      const error = new Error("not your recipe");
+      error.status = 401;
+      next(error);
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.updateRecipe = async (req, res, next) => {
+  try {
+    if (req.user.id === req.chef.userId) {
+      if (req.file) {
+        req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
+      }
+      const updatedRecipe = await req.recipe.update(req.body);
+      res.status(200).json(updatedRecipe);
+    } else {
+      const error = new Error("not your recipe");
+      error.status = 401;
+      next(error);
+    }
   } catch (error) {
     next(error);
   }
