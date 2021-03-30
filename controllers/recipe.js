@@ -29,31 +29,31 @@ exports.searchRecipes = async (req, res, next) => {
   }
 };
 
-exports.addRecipe = async (req, res, next) => {
-  try {
-    if (req.file) {
-      req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
-    }
-    console.log(req.body.image);
-    const newRecipe = await Recipe.create(req.body);
-    res.status(201);
-    res.json(newRecipe);
-  } catch (error) {
-    next(error);
-  }
-};
+// exports.addRecipe = async (req, res, next) => {
+//   try {
+//     if (req.file) {
+//       req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
+//     }
+//     console.log(req.body.image);
+//     const newRecipe = await Recipe.create(req.body);
+//     res.status(201);
+//     res.json(newRecipe);
+//   } catch (error) {
+//     next(error);
+//   }
+// };
 
-exports.updateRecipe = async (req, res, next) => {
-  try {
-    if (req.file) {
-      req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
-    }
-    const updatedRecipe = await req.recipe.update(req.body);
-    res.status(200).json(updatedRecipe);
-  } catch (error) {
-    next(error);
-  }
-};
+// exports.updateRecipe = async (req, res, next) => {
+//   try {
+//     if (req.file) {
+//       req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
+//     }
+//     const updatedRecipe = await req.recipe.update(req.body);
+//     res.status(200).json(updatedRecipe);
+//   } catch (error) {
+//     next(error);
+//   }
+// };
 
 exports.detailRecipe = async (req, res, next) => {
   try {
