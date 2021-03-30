@@ -34,6 +34,7 @@ exports.addRecipe = async (req, res, next) => {
     if (req.file) {
       req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
     }
+    console.log(req.body.image);
     const newRecipe = await Recipe.create(req.body);
     res.status(201);
     res.json(newRecipe);
