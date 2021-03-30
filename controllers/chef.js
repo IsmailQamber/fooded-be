@@ -21,9 +21,8 @@ exports.listChefs = async (req, res, next) => {
 
 exports.searchChefs = async (req, res, next) => {
   try {
-    const chefs = await Chef.findAll({
-      where: { name: { [Op.iLike]: `%${req.body.name}%` } },
-    });
+    const chefs = await Chef.findAll();
+    console.log(req.body);
     res.status(200);
     res.json(chefs);
   } catch (error) {

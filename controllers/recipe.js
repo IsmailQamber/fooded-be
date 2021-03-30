@@ -21,9 +21,7 @@ exports.listRecipes = async (req, res, next) => {
 
 exports.searchRecipes = async (req, res, next) => {
   try {
-    const recipes = await Recipe.findAll({
-      where: { name: { [Op.iLike]: `%${req.body.name}%` } },
-    });
+    const recipes = await Recipe.findAll();
     res.status(200);
     res.json(recipes);
   } catch (error) {
