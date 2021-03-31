@@ -22,7 +22,6 @@ exports.listChefs = async (req, res, next) => {
 exports.searchChefs = async (req, res, next) => {
   try {
     const chefs = await Chef.findAll();
-    console.log(req.body);
     res.status(200);
     res.json(chefs);
   } catch (error) {
@@ -76,7 +75,6 @@ exports.removeChef = async (req, res, next) => {
 
 exports.addRecipe = async (req, res, next) => {
   try {
-    console.log(req.body);
     if (req.user.id === req.chef.userId) {
       if (req.file) {
         req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
