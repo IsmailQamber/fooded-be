@@ -1,5 +1,5 @@
 const { Op } = require("sequelize");
-const { Chef, Recipe } = require("../db/models");
+const { Chef, Recipe, Session } = require("../db/models");
 
 exports.fetchChefs = async (chefId, next) => {
   try {
@@ -119,6 +119,23 @@ exports.removeRecipe = async (req, res, next) => {
       res.end();
     } else {
       const error = new Error("not your recipe");
+      error.status = 401;
+      next(error);
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.addSession = async (req, res, next) => {
+  try {
+    if (req.recipe.chefId === req.chef.id && req.user.id === req.chef.userId) {
+      req.body.recipeId = req.recipe.id;
+      const newSession = await Session.create(req.body);
+      res.status(201);
+      res.json(newSession);
+    } else {
+      const error = new Error("not your session");
       error.status = 401;
       next(error);
     }

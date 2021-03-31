@@ -11,6 +11,7 @@ const {
   removeRecipe,
   detailRecipe,
   searchRecipes,
+  addSession,
 } = require("../controllers/recipe");
 
 router.param("recipeId", async (req, res, next, recipeId) => {
