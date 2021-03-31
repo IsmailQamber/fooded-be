@@ -29,7 +29,7 @@ router.get("/", listRecipes);
 
 // router.put("/:recipeId", upload.single("image"), updateRecipe);
 
-router.delete("/:recipeId", removeRecipe);
+// router.delete("/:recipeId", removeRecipe);
 
 router.get("/:recipeId", detailRecipe);
 

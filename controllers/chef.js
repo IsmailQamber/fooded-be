@@ -22,7 +22,6 @@ exports.listChefs = async (req, res, next) => {
 exports.searchChefs = async (req, res, next) => {
   try {
     const chefs = await Chef.findAll();
-    console.log(req.body);
     res.status(200);
     res.json(chefs);
   } catch (error) {
@@ -80,7 +79,7 @@ exports.addRecipe = async (req, res, next) => {
       if (req.file) {
         req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
       }
-      console.log(req.body.image);
+      req.body.chefId = req.chef.id;
       const newRecipe = await Recipe.create(req.body);
       res.status(201);
       res.json(newRecipe);
@@ -96,12 +95,28 @@ exports.addRecipe = async (req, res, next) => {
 
 exports.updateRecipe = async (req, res, next) => {
   try {
-    if (req.user.id === req.chef.userId) {
+    if (req.user.id === req.chef.userId && req.recipe.chefId === req.chef.id) {
       if (req.file) {
         req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
       }
       const updatedRecipe = await req.recipe.update(req.body);
       res.status(200).json(updatedRecipe);
+    } else {
+      const error = new Error("not your recipe");
+      error.status = 401;
+      next(error);
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.removeRecipe = async (req, res, next) => {
+  try {
+    if (req.user.id === req.chef.userId && req.recipe.chefId === req.chef.id) {
+      await req.recipe.destroy();
+      res.status(204);
+      res.end();
     } else {
       const error = new Error("not your recipe");
       error.status = 401;

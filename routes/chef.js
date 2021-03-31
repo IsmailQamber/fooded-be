@@ -13,6 +13,7 @@ const {
   searchChefs,
   addRecipe,
   updateRecipe,
+  removeRecipe,
 } = require("../controllers/chef");
 const { fetchRecipes } = require("../controllers/recipe");
 
@@ -60,6 +61,12 @@ router.put(
   passport.authenticate("jwt", { session: false }),
   upload.single("image"),
   updateRecipe
+);
+
+router.delete(
+  "/:chefId/recipes/:recipeId",
+  passport.authenticate("jwt", { session: false }),
+  removeRecipe
 );
 
 module.exports = router;
