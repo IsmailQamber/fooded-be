@@ -64,12 +64,12 @@ exports.detailRecipe = async (req, res, next) => {
   }
 };
 
-exports.removeRecipe = async (req, res, next) => {
-  try {
-    await req.recipe.destroy();
-    res.status(204);
-    res.end();
-  } catch (error) {
-    next(error);
-  }
-};
+// exports.removeRecipe = async (req, res, next) => {
+//   try {
+//     await req.recipe.destroy();
+//     res.status(204);
+//     res.end();
+//   } catch (error) {
+//     next(error);
+//   }
+// };

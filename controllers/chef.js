@@ -76,11 +76,12 @@ exports.removeChef = async (req, res, next) => {
 
 exports.addRecipe = async (req, res, next) => {
   try {
+    console.log(req.body);
     if (req.user.id === req.chef.userId) {
       if (req.file) {
         req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
       }
-      console.log(req.body.image);
+      req.body.chefId = req.chef.id;
       const newRecipe = await Recipe.create(req.body);
       res.status(201);
       res.json(newRecipe);
@@ -102,6 +103,22 @@ exports.updateRecipe = async (req, res, next) => {
       }
       const updatedRecipe = await req.recipe.update(req.body);
       res.status(200).json(updatedRecipe);
+    } else {
+      const error = new Error("not your recipe");
+      error.status = 401;
+      next(error);
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.removeRecipe = async (req, res, next) => {
+  try {
+    if (req.user.id === req.chef.userId) {
+      await req.recipe.destroy();
+      res.status(204);
+      res.end();
     } else {
       const error = new Error("not your recipe");
       error.status = 401;
