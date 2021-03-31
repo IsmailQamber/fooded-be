@@ -77,7 +77,7 @@ exports.removeChef = async (req, res, next) => {
 exports.addRecipe = async (req, res, next) => {
   try {
     console.log(req.body);
-    if (req.user.id === req.chef.userId) {
+    if (req.user.id === req.chef.userId && req.recipe.chefId === req.chef.id) {
       if (req.file) {
         req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
       }
@@ -97,7 +97,7 @@ exports.addRecipe = async (req, res, next) => {
 
 exports.updateRecipe = async (req, res, next) => {
   try {
-    if (req.user.id === req.chef.userId) {
+    if (req.user.id === req.chef.userId && req.recipe.chefId === req.chef.id) {
       if (req.file) {
         req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
       }
@@ -115,7 +115,7 @@ exports.updateRecipe = async (req, res, next) => {
 
 exports.removeRecipe = async (req, res, next) => {
   try {
-    if (req.user.id === req.chef.userId) {
+    if (req.user.id === req.chef.userId && req.recipe.chefId === req.chef.id) {
       await req.recipe.destroy();
       res.status(204);
       res.end();

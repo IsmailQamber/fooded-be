@@ -66,7 +66,6 @@ router.put(
 router.delete(
   "/:chefId/recipes/:recipeId",
   passport.authenticate("jwt", { session: false }),
-
   removeRecipe
 );
 
