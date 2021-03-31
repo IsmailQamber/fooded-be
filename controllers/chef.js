@@ -77,7 +77,7 @@ exports.removeChef = async (req, res, next) => {
 exports.addRecipe = async (req, res, next) => {
   try {
     console.log(req.body);
-    if (req.user.id === req.chef.userId && req.recipe.chefId === req.chef.id) {
+    if (req.user.id === req.chef.userId) {
       if (req.file) {
         req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
       }
