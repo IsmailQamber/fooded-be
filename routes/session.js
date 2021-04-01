@@ -22,9 +22,9 @@ router.param("sessionId", async (req, res, next, sessionId) => {
 
 router.get("/", listSessions);
 
-router.post("/", addSession);
+// router.post("/", addSession);
 
-router.put("/:sessionId", updateSession);
+// router.put("/:sessionId", updateSession);
 
 router.delete("/:sessionId", removeSession);
 

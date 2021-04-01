@@ -19,25 +19,25 @@ exports.listSessions = async (req, res, next) => {
   }
 };
 
-exports.addSession = async (req, res, next) => {
-  try {
-    const newSession = await Session.create(req.body);
-    res.status(201);
-    res.json(newSession);
-  } catch (error) {
-    next(error);
-  }
-};
+// exports.addSession = async (req, res, next) => {
+//   try {
+//     const newSession = await Session.create(req.body);
+//     res.status(201);
+//     res.json(newSession);
+//   } catch (error) {
+//     next(error);
+//   }
+// };
 
-exports.updateSession = async (req, res, next) => {
-  try {
-    const updatedSession = await req.session.update(req.body);
-    res.status(204);
-    res.json(updatedSession);
-  } catch (error) {
-    next(error);
-  }
-};
+// exports.updateSession = async (req, res, next) => {
+//   try {
+//     const updatedSession = await req.session.update(req.body);
+//     res.status(204);
+//     res.json(updatedSession);
+//   } catch (error) {
+//     next(error);
+//   }
+// };
 
 exports.removeSession = async (req, res, next) => {
   try {

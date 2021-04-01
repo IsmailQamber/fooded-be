@@ -14,8 +14,11 @@ const {
   addRecipe,
   updateRecipe,
   removeRecipe,
+  addSession,
+  updateSession,
 } = require("../controllers/chef");
 const { fetchRecipes } = require("../controllers/recipe");
+const { fetchSessions } = require("../controllers/session");
 
 router.param("chefId", async (req, res, next, chefId) => {
   const chef = await fetchChefs(chefId, next);
@@ -34,6 +37,16 @@ router.param("recipeId", async (req, res, next, recipeId) => {
     next();
   } else {
     next({ status: 404, message: "recipe not found" });
+  }
+});
+
+router.param("sessionId", async (req, res, next, sessionId) => {
+  const session = await fetchSessions(sessionId, next);
+  if (session) {
+    req.session = session;
+    next();
+  } else {
+    next({ status: 404, message: "session not found" });
   }
 });
 
@@ -68,5 +81,14 @@ router.delete(
   passport.authenticate("jwt", { session: false }),
   removeRecipe
 );
+
+router.post(
+  "/:chefId/sessions",
+  passport.authenticate("jwt", { session: false }),
+  addSession
+);
+
+//ICEBOX
+// router.put("/:sessionId", updateSession);
 
 module.exports = router;
