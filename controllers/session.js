@@ -1,4 +1,4 @@
-const { Session } = require("../db/models");
+const { Session, Booking } = require("../db/models");
 const { Op } = require("sequelize");
 
 exports.fetchSessions = async (sessionId, next) => {
@@ -57,6 +57,18 @@ exports.searchSession = async (req, res, next) => {
     });
     res.status(200);
     res.json(chefs);
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.addBooking = async (req, res, next) => {
+  try {
+    req.body.sessionId = req.session.id;
+    req.body.userId = req.user.id;
+    const newBooking = await Booking.create(req.body);
+    res.status(201);
+    res.json(newBooking);
   } catch (error) {
     next(error);
   }

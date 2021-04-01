@@ -1,4 +1,5 @@
 const express = require("express");
+const passport = require("passport");
 const router = express.Router();
 
 const {
@@ -8,6 +9,7 @@ const {
   updateSession,
   removeSession,
   searchSession,
+  addBooking,
 } = require("../controllers/session");
 
 router.param("sessionId", async (req, res, next, sessionId) => {
@@ -29,5 +31,11 @@ router.get("/", listSessions);
 router.delete("/:sessionId", removeSession);
 
 router.post("/search", searchSession);
+
+router.post(
+  "/:sessionId/booking",
+  passport.authenticate("jwt", { session: false }),
+  addBooking
+);
 
 module.exports = router;
