@@ -11,7 +11,38 @@ exports.fetchSessions = async (sessionId, next) => {
 
 exports.listSessions = async (req, res, next) => {
   try {
-    const sessions = await Session.findAll();
+    // Adding 24 hours to the current time
+    const add_minutes = (dt, minutes) => {
+      return new Date(dt.getTime() + minutes * 60000);
+    };
+    const timeNow = add_minutes(new Date(), 1440).toLocaleTimeString("en-GB");
+    const dateNow = Date.now();
+    const today = new Date(dateNow);
+
+    const sessions = await Session.findAll({
+      where: {
+        // This was so confusing, don't try this at home
+        [Op.or]: [
+          {
+            [Op.and]: [
+              {
+                time: {
+                  [Op.gt]: timeNow,
+                },
+                date: {
+                  [Op.eq]: today,
+                },
+              },
+            ],
+          },
+          {
+            date: {
+              [Op.gt]: today,
+            },
+          },
+        ],
+      },
+    });
     res.status(200);
     res.json(sessions);
   } catch (error) {
