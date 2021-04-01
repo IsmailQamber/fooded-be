@@ -71,7 +71,7 @@ router.delete(
 );
 
 router.post(
-  "/:chefId/recipes/:recipeId/sessions",
+  "/:chefId/sessions",
   passport.authenticate("jwt", { session: false }),
   addSession
 );

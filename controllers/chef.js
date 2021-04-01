@@ -129,8 +129,9 @@ exports.removeRecipe = async (req, res, next) => {
 
 exports.addSession = async (req, res, next) => {
   try {
-    if (req.recipe.chefId === req.chef.id && req.user.id === req.chef.userId) {
-      req.body.recipeId = req.recipe.id;
+    if (req.user.id === req.chef.userId) {
+      //req.recipe.chefId === req.chef.id && condition
+      // req.body.recipeId = req.recipe.id;
       const newSession = await Session.create(req.body);
       res.status(201);
       res.json(newSession);
