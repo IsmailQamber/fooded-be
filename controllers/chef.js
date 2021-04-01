@@ -131,7 +131,7 @@ exports.addSession = async (req, res, next) => {
   try {
     if (req.user.id === req.chef.userId) {
       //req.recipe.chefId === req.chef.id && condition
-      // req.body.recipeId = req.recipe.id;
+
       const newSession = await Session.create(req.body);
       res.status(201);
       res.json(newSession);
@@ -144,3 +144,14 @@ exports.addSession = async (req, res, next) => {
     next(error);
   }
 };
+
+//ICEBOX
+// exports.updateSession = async (req, res, next) => {
+//   try {
+//     const updatedSession = await req.session.update(req.body);
+//     res.status(204);
+//     res.json(updatedSession);
+//   } catch (error) {
+//     next(error);
+//   }
+// };

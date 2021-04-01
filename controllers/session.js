@@ -29,15 +29,15 @@ exports.listSessions = async (req, res, next) => {
 //   }
 // };
 
-exports.updateSession = async (req, res, next) => {
-  try {
-    const updatedSession = await req.session.update(req.body);
-    res.status(204);
-    res.json(updatedSession);
-  } catch (error) {
-    next(error);
-  }
-};
+// exports.updateSession = async (req, res, next) => {
+//   try {
+//     const updatedSession = await req.session.update(req.body);
+//     res.status(204);
+//     res.json(updatedSession);
+//   } catch (error) {
+//     next(error);
+//   }
+// };
 
 exports.removeSession = async (req, res, next) => {
   try {
