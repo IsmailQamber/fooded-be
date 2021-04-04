@@ -3,11 +3,10 @@ const { Op } = require("sequelize");
 const moment = require("moment");
 
 const sgMail = require("@sendgrid/mail");
+const { SENDGRID } = require("../config/keys");
 
 const email = (user) => {
-  sgMail.setApiKey(
-    "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"
-  );
+  sgMail.setApiKey(SENDGRID);
 
   const msg = {
     to: user.email, //user.email, // Change to your recipient

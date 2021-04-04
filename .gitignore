@@ -109,3 +109,6 @@ db/config/config.json
 
 # media folder
 media
+
+#keys file
+config/keys

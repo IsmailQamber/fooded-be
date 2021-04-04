@@ -1,13 +1,11 @@
 const bcrypt = require("bcrypt");
 const { User } = require("../db/models");
 const jwt = require("jsonwebtoken");
-const { JWT_SECRET, JWT_EXPIRATION_MS } = require("../config/keys");
+const { JWT_SECRET, JWT_EXPIRATION_MS, SENDGRID } = require("../config/keys");
 const sgMail = require("@sendgrid/mail");
 
 const email = (user) => {
-  sgMail.setApiKey(
-    "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"
-  );
+  sgMail.setApiKey(SENDGRID);
 
   const msg = {
     to: user.email, // Change to your recipient
