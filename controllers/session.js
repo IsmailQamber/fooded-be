@@ -1,6 +1,6 @@
 const { Session, Booking } = require("../db/models");
 const { Op } = require("sequelize");
-
+const moment = require("moment");
 exports.fetchSessions = async (sessionId, next) => {
   try {
     return (found = await Session.findByPk(sessionId));
@@ -16,8 +16,9 @@ exports.listSessions = async (req, res, next) => {
       return new Date(dt.getTime() + minutes * 60000);
     };
     const timeNow = add_minutes(new Date(), 1440).toLocaleTimeString("en-GB");
-    const dateNow = Date.now();
-    const today = new Date(dateNow);
+
+    //Tommorow date
+    const tommorow = moment().add(1, "days");
 
     const sessions = await Session.findAll({
       where: {
@@ -30,14 +31,14 @@ exports.listSessions = async (req, res, next) => {
                   [Op.gt]: timeNow,
                 },
                 date: {
-                  [Op.eq]: today,
+                  [Op.eq]: tommorow,
                 },
               },
             ],
           },
           {
             date: {
-              [Op.gt]: today,
+              [Op.gt]: tommorow,
             },
           },
         ],
