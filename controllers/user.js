@@ -2,6 +2,29 @@ const bcrypt = require("bcrypt");
 const { User } = require("../db/models");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET, JWT_EXPIRATION_MS } = require("../config/keys");
+const sgMail = require("@sendgrid/mail");
+
+const email = (user) => {
+  sgMail.setApiKey(
+    "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"
+  );
+
+  const msg = {
+    to: user.email, // Change to your recipient
+    from: "ayman159@live.com", // Change to your verified sender
+    subject: "Sign Up confirmation",
+    text: "Registration confirmed",
+    html: "<strong>Registration Confirmed</strong>",
+  };
+  sgMail
+    .send(msg)
+    .then(() => {
+      console.log("Email sent");
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+};
 
 exports.signup = async (req, res, next) => {
   try {
@@ -12,6 +35,9 @@ exports.signup = async (req, res, next) => {
     const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
     req.body.password = hashedPassword;
     const newUser = await User.create(req.body);
+
+    email(newUser);
+
     const payload = {
       id: newUser.id,
       username: newUser.username,
@@ -28,6 +54,7 @@ exports.signup = async (req, res, next) => {
 
 exports.signin = (req, res) => {
   const { user } = req;
+
   const payload = {
     id: user.id,
     username: user.username,

@@ -1,6 +1,31 @@
 const { Session, Booking } = require("../db/models");
 const { Op } = require("sequelize");
 const moment = require("moment");
+
+const sgMail = require("@sendgrid/mail");
+
+const email = (user) => {
+  sgMail.setApiKey(
+    "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"
+  );
+
+  const msg = {
+    to: user.email, //user.email, // Change to your recipient
+    from: "ayman159@live.com", // Change to your verified sender
+    subject: "Sign Up confirmation",
+    text: "Bookeing",
+    html: "<strong>Booking</strong>",
+  };
+  sgMail
+    .send(msg)
+    .then(() => {
+      console.log("Email sent");
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+};
+
 exports.fetchSessions = async (sessionId, next) => {
   try {
     return (found = await Session.findByPk(sessionId));
@@ -99,6 +124,7 @@ exports.addBooking = async (req, res, next) => {
     req.body.sessionId = req.session.id;
     req.body.userId = req.user.id;
     const newBooking = await Booking.create(req.body);
+    email(req.user);
     res.status(201);
     res.json(newBooking);
   } catch (error) {
