@@ -5,12 +5,14 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         DateValidate(value) {
           if (value > Date.now()) {
+            // CODE-REVIEW: condition not working
             throw new Error("Session date should be after today");
           }
         },
       },
     },
-    time: { type: DataTypes.TIME },
+    time: { type: DataTypes.TIME, allowNull: false },
+    zoom: { type: DataTypes.STRING },
   });
 
   return Session;
