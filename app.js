@@ -20,7 +20,6 @@ app.use(passport.initialize());
 passport.use(localStrategy);
 passport.use(jwtStrategy);
 
-//Routes
 app.use(userRoutes);
 app.use("/chefs", chefRoutes);
 app.use("/recipes", recipeRoutes);

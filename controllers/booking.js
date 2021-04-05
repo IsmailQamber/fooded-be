@@ -1,4 +1,3 @@
-const { Op } = require("sequelize");
 const { Booking } = require("../db/models");
 
 exports.fetchBookings = async (bookingId, next) => {
@@ -18,30 +17,6 @@ exports.listBookings = async (req, res, next) => {
     next(error);
   }
 };
-
-exports.searchBookings = async (req, res, next) => {
-  try {
-    const bookings = await Booking.findAll();
-    res.status(200);
-    res.json(bookings);
-  } catch (error) {
-    next(error);
-  }
-};
-
-// exports.addBooking = async (req, res, next) => {
-//   try {
-//     if (req.file) {
-//       req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
-//     }
-//     console.log(req.body.image);
-//     const newBooking = await Booking.create(req.body);
-//     res.status(201);
-//     res.json(newBooking);
-//   } catch (error) {
-//     next(error);
-//   }
-// };
 
 exports.updateBooking = async (req, res, next) => {
   try {
