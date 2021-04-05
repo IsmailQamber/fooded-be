@@ -15,8 +15,10 @@ const zoomSessionCreate = () => {
       //Provide your token here
       bearer:
         eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9
-          .eyJhdWQiOm51bGwsImlzcyI6IjhIS0NUcTZGUzFtbFR4WXBqa3JIWkEiLCJleHAiOjE2MTc1OTI3OTUsImlhdCI6MTYxNzU4NzM5NX0
-          .k8VgwiA_1at2SpPgBwNlCi5sdpQXvvB1ZK1AAoatETQ,
+          .eyJhdWQiOm51bGwsImlzcyI6IjhIS0NUcTZGUzFtbFR4WXBqa3JIWkEiLCJleHAiOjE2MTgyMDY0NDgsImlhdCI6MTYxNzYwMTY0N30
+          .MfV_jGh6ynH -
+        ptPXFZn0oDT -
+        TFSlqRMFggeNwjfdjNw,
     },
     headers: {
       "User-Agent": "Zoom-Jwt-Request",
