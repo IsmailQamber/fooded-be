@@ -4,7 +4,6 @@ const moment = require("moment");
 const sgMail = require("@sendgrid/mail");
 const { SENDGRID } = require("../config/keys");
 
-
 const zoomSessionCreate = () => {
   const options = {
     uri: "https://api.zoom.us/v2/users/ism-you-95@hotmail.com/meetings", // change the email if you are using ur auth
@@ -38,7 +37,6 @@ const zoomSessionCreate = () => {
     });
 };
 
-const email = (user) => {
 const email = (user, session) => {
   sgMail.setApiKey(SENDGRID);
 
