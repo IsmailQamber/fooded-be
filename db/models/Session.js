@@ -10,7 +10,8 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
     },
-    time: { type: DataTypes.TIME },
+    time: { type: DataTypes.TIME, allowNull: false },
+    zoom: { type: DataTypes.STRING },
   });
 
   return Session;
