@@ -7,7 +7,7 @@ const { SENDGRID } = require("../config/keys");
 
 const zoomSessionCreate = () => {
   const options = {
-    uri: "https://api.zoom.us/v2/users",
+    uri: "https://api.zoom.us/v2/users/ism-you-95@hotmail.com/meetings",
     qs: {
       status: "active", // -> uri + '?status=active'
     },
