@@ -26,7 +26,7 @@ exports.jwtStrategy = new JWTStrategy(
 exports.localStrategy = new LocalStrategy(async (username, password, done) => {
   try {
     const user = await User.findOne({
-      where: { username }, // equivalent to { username : username }
+      where: { username },
     });
     let passwordsMatch = user
       ? await bcrypt.compare(password, user.password)

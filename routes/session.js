@@ -5,9 +5,6 @@ const router = express.Router();
 const {
   fetchSessions,
   listSessions,
-  addSession,
-  updateSession,
-  removeSession,
   searchSession,
   addBooking,
 } = require("../controllers/session");
@@ -23,12 +20,6 @@ router.param("sessionId", async (req, res, next, sessionId) => {
 });
 
 router.get("/", listSessions);
-
-// router.post("/", addSession);
-
-// router.put("/:sessionId", updateSession);
-
-router.delete("/:sessionId", removeSession);
 
 router.post("/search", searchSession);
 

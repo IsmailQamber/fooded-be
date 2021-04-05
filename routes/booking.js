@@ -1,16 +1,13 @@
+// Prepared for icebox - Not in use
 const express = require("express");
 const router = express.Router();
-const upload = require("../middleware/multer");
-const passport = require("passport");
 
 const {
   fetchBookings,
   listBookings,
-  addBooking,
   updateBooking,
   removeBooking,
   detailBooking,
-  searchBookings,
 } = require("../controllers/booking");
 
 router.param("bookingId", async (req, res, next, bookingId) => {
@@ -25,14 +22,10 @@ router.param("bookingId", async (req, res, next, bookingId) => {
 
 router.get("/", listBookings);
 
-// router.post("/", addBooking);
-
 router.put("/:bookingId", updateBooking);
 
 router.delete("/:bookingId", removeBooking);
 
 router.get("/:bookingId", detailBooking);
-
-router.post("/search", searchBookings);
 
 module.exports = router;

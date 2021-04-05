@@ -7,15 +7,11 @@ const {
   fetchChefs,
   listChefs,
   addChef,
-  updateChef,
-  removeChef,
   detailChef,
-  searchChefs,
   addRecipe,
   updateRecipe,
   removeRecipe,
   addSession,
-  updateSession,
 } = require("../controllers/chef");
 const { fetchRecipes } = require("../controllers/recipe");
 const { fetchSessions } = require("../controllers/session");
@@ -54,13 +50,7 @@ router.get("/", listChefs);
 
 router.post("/", upload.single("image"), addChef);
 
-router.put("/:chefId", upload.single("image"), updateChef);
-
-router.delete("/:chefId", removeChef);
-
 router.get("/:chefId", detailChef);
-
-router.post("/search", searchChefs);
 
 router.post(
   "/:chefId/recipes",
@@ -87,8 +77,5 @@ router.post(
   passport.authenticate("jwt", { session: false }),
   addSession
 );
-
-//ICEBOX
-// router.put("/:sessionId", updateSession);
 
 module.exports = router;
