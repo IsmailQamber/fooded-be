@@ -5,15 +5,15 @@ const moment = require("moment");
 const sgMail = require("@sendgrid/mail");
 const { SENDGRID } = require("../config/keys");
 
-const email = (user) => {
+const email = (user, session) => {
   sgMail.setApiKey(SENDGRID);
 
   const msg = {
-    to: user.email, //user.email, // Change to your recipient
+    to: user.email, // Change to your recipient
     from: "ayman159@live.com", // Change to your verified sender
     subject: "Sign Up confirmation",
-    text: "Bookeing",
-    html: "<strong>Booking</strong>",
+    text: `Session zoom link: ${session.zoom}`,
+    html: `<strong>Session zoom link: ${session.zoom}</strong>`,
   };
   sgMail
     .send(msg)
@@ -123,7 +123,7 @@ exports.addBooking = async (req, res, next) => {
     req.body.sessionId = req.session.id;
     req.body.userId = req.user.id;
     const newBooking = await Booking.create(req.body);
-    email(req.user);
+    email(req.user, req.session);
     res.status(201);
     res.json(newBooking);
   } catch (error) {
