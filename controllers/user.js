@@ -10,6 +10,7 @@ const userPayload = (user) => {
     username: user.username,
     userType: user.userType,
     email: user.email,
+    firstName: user.firstName,
     lastName: user.lastName,
     phoneNumber: user.phoneNumber,
     house: user.house,
@@ -70,7 +71,7 @@ exports.signin = (req, res) => {
   const { user } = req;
 
   userPayload(user);
-  const token = jwt.sign(JSON.stringify(payload), JWT_SECRET);
+  const token = jwt.sign(JSON.stringify(user), JWT_SECRET);
   res.status(201).json({ token });
 };
 
@@ -90,7 +91,7 @@ exports.userUpdate = async (req, res, next) => {
     const user = req.user;
     await req.user.update(req.body);
     userPayload(user);
-    const token = jwt.sign(JSON.stringify(userPayload(user)), JWT_SECRET);
+    const token = jwt.sign(JSON.stringify(user), JWT_SECRET);
     res.status(200).json([req.user, token]);
   } catch (err) {
     next(err);
