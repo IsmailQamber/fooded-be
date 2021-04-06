@@ -1,6 +1,7 @@
-const { Chef, Recipe, Session } = require("../db/models");
+const { Chef, Recipe, Session, Booking, User } = require("../db/models");
 const axios = require("axios");
-const { addEmail } = require("./email");
+const { Op } = require("sequelize");
+const { addEmail, editEmail } = require("./email");
 
 exports.fetchChefs = async (chefId, next) => {
   try {
@@ -136,7 +137,7 @@ exports.addSession = async (req, res, next) => {
           headers: headers,
         }
       );
-      // console.log(response);
+
       link = response.data.join_url;
 
       req.body.zoom = link;
@@ -145,6 +146,40 @@ exports.addSession = async (req, res, next) => {
 
       res.status(201);
       res.json(newSession);
+    } else {
+      const error = new Error("not your session");
+      error.status = 401;
+      next(error);
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.updateSession = async (req, res, next) => {
+  try {
+    if (
+      req.user.id === req.chef.userId &&
+      req.session.recipeId === req.recipe.id &&
+      req.recipe.chefId === req.chef.id
+    ) {
+      //finding users that booked this session
+      const bookings = await Booking.findAll({
+        where: { sessionId: { [Op.eq]: req.session.id } },
+      });
+
+      let sessionUsers = bookings.map((booking) => booking.dataValues.userId);
+
+      const allUsers = await User.findAll({});
+
+      const usersData = allUsers.filter((usrs) =>
+        sessionUsers.find((usr) => usrs.id === usr)
+      );
+
+      const userEmails = usersData.map((U) => U.dataValues.email);
+      const updatedSession = await req.session.update(req.body);
+      editEmail(userEmails, req.session);
+      res.status(200).json(updatedSession);
     } else {
       const error = new Error("not your session");
       error.status = 401;

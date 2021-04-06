@@ -12,6 +12,7 @@ const {
   updateRecipe,
   removeRecipe,
   addSession,
+  updateSession,
 } = require("../controllers/chef");
 const { fetchRecipes } = require("../controllers/recipe");
 const { fetchSessions } = require("../controllers/session");
@@ -52,6 +53,7 @@ router.post("/", upload.single("image"), addChef);
 
 router.get("/:chefId", detailChef);
 
+//recipe routes
 router.post(
   "/:chefId/recipes",
   passport.authenticate("jwt", { session: false }),
@@ -72,10 +74,17 @@ router.delete(
   removeRecipe
 );
 
+//session routes
 router.post(
   "/:chefId/sessions",
   passport.authenticate("jwt", { session: false }),
   addSession
+);
+
+router.put(
+  "/:chefId/recipes/:recipeId/sessions/:sessionId",
+  passport.authenticate("jwt", { session: false }),
+  updateSession
 );
 
 module.exports = router;
