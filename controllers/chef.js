@@ -1,6 +1,6 @@
 const { Chef, Recipe, Session } = require("../db/models");
 const axios = require("axios");
-const { email, addEmail } = require("./email");
+const { addEmail } = require("./email");
 
 exports.fetchChefs = async (chefId, next) => {
   try {
