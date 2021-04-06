@@ -1,26 +1,5 @@
 const { Chef, Recipe, Session } = require("../db/models");
-const request = require("request");
 const axios = require("axios");
-
-const zoomSessionCreate = (body) => {
-  var options = {
-    method: "POST",
-    // Use the `me` keyword for the request below.
-    url: "https://api.zoom.us/v2/users/ism-you-95@hotmail.com/meetings",
-    headers: {
-      authorization:
-        "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOm51bGwsImlzcyI6IjhIS0NUcTZGUzFtbFR4WXBqa3JIWkEiLCJleHAiOjE2MTgyMzM1NjMsImlhdCI6MTYxNzYyODc2M30.I6_-XAaOXtB9jr7swRniOaPQx75g5vb0n1m7G_xzZ_8", // Do not publish or share your token with anyone.
-    },
-    body: {},
-  };
-
-  request(options, function (error, response, body) {
-    if (error) throw new Error(error);
-
-    console.log(body);
-    console.log("respoooonseee", response.body);
-  });
-};
 
 exports.fetchChefs = async (chefId, next) => {
   try {
