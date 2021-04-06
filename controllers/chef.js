@@ -104,7 +104,7 @@ exports.addSession = async (req, res, next) => {
         type: 1,
         start_time: req.body.time,
         duration: 45,
-        schedule_for: "ayman159@live.com", //chenge to info@fooded.com
+        schedule_for: "fooded.bh@gmail.com", //chenge to info@fooded.com
         timezone: "Asia/Bahrain",
         password: "123456",
         settings: {
@@ -125,11 +125,11 @@ exports.addSession = async (req, res, next) => {
 
       const headers = {
         authorization:
-          "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOm51bGwsImlzcyI6IjllMkxmWGZIVEtpWTU1cjlHVUloSWciLCJleHAiOjE2MTc3ODI1NzQsImlhdCI6MTYxNzY5NjE3NH0.4_ltsYS2XIw29qejVHpInbg0bMIhQB7EdoEplOLWEiY",
+          "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOm51bGwsImlzcyI6IkxfRGdDODI5VGgybEtpQkNSeXhwYUEiLCJleHAiOjE2MTc3MTAxMjMsImlhdCI6MTYxNzcwNDcyMn0.OI9ST6VSg9r79jBkbeC-xGGn3ZahEH7xvxG_D5I5-88",
       };
 
       const response = await axios.post(
-        "https://api.zoom.us/v2/users/ayman159@live.com/meetings",
+        "https://api.zoom.us/v2/users/fooded.bh@gmail.com/meetings",
         body,
         {
           headers: headers,
