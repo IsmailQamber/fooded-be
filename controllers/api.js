@@ -27,3 +27,25 @@ rp(options)
     // API call failed...
     console.log("API call failed, reason ", err);
   });
+
+//ايميل احتياط
+// exports.editEmail = (user, session) => {
+//   sgMail.setApiKey(SENDGRID);
+//   console.log("emails", user);
+//   console.log("session", session);
+//   const msg = {
+//     to: ["ayman159@live.com", "fooded.bh@gmail.com"], //user.email,
+//     from: "fooded.bh@gmail.com", // Change to our verified sender when created (info@fooded.com)
+//     subject: "Session Updated",
+//     text: `Session zoom link: ${session.zoom}, Session time: ${session.time}, Session date: ${session.date}`,
+//     html: `<strong>Session zoom link: ${session.zoom}, Session time: ${session.time}, Session date: ${session.date}</strong>`,
+//   };
+//   sgMail
+//     .send(msg)
+//     .then(() => {
+//       console.log("Email sent");
+//     })
+//     .catch((error) => {
+//       console.error(error);
+//     });
+// };
