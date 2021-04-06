@@ -1,5 +1,6 @@
 const { Chef, Recipe, Session } = require("../db/models");
 const axios = require("axios");
+const { email, addEmail } = require("./email");
 
 exports.fetchChefs = async (chefId, next) => {
   try {
@@ -102,7 +103,7 @@ exports.addSession = async (req, res, next) => {
       const body = {
         topic: "cooking",
         type: 1,
-        start_time: req.body.time,
+        start_time: `${req.body.date}-${req.body.time}`,
         duration: 45,
         schedule_for: "fooded.bh@gmail.com", //chenge to info@fooded.com
         timezone: "Asia/Bahrain",
@@ -135,11 +136,12 @@ exports.addSession = async (req, res, next) => {
           headers: headers,
         }
       );
-      console.log(response);
+      // console.log(response);
       link = response.data.join_url;
 
       req.body.zoom = link;
       const newSession = await Session.create(req.body);
+      addEmail(req.user, newSession);
 
       res.status(201);
       res.json(newSession);
