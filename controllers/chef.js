@@ -1,4 +1,5 @@
 const { Chef, Recipe, Session } = require("../db/models");
+const axios = require("axios");
 
 exports.fetchChefs = async (chefId, next) => {
   try {
@@ -95,9 +96,51 @@ exports.removeRecipe = async (req, res, next) => {
 };
 
 exports.addSession = async (req, res, next) => {
+  let link = null;
   try {
     if (req.user.id === req.chef.userId) {
+      const body = {
+        topic: "cooking",
+        type: 1,
+        start_time: req.body.time,
+        duration: 45,
+        schedule_for: "ayman159@live.com", //chenge to info@fooded.com
+        timezone: "Asia/Bahrain",
+        password: "123456",
+        settings: {
+          host_video: true,
+          participant_video: true,
+          cn_meeting: false,
+          in_meeting: true,
+          join_before_host: false,
+          mute_upon_entry: true,
+          watermark: false,
+          use_pmi: false,
+          approval_type: 2,
+          audio: "both",
+          auto_recording: "cloud",
+          registrants_email_notification: true,
+        },
+      };
+
+      const headers = {
+        authorization:
+          "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOm51bGwsImlzcyI6IjllMkxmWGZIVEtpWTU1cjlHVUloSWciLCJleHAiOjE2MTc3ODI1NzQsImlhdCI6MTYxNzY5NjE3NH0.4_ltsYS2XIw29qejVHpInbg0bMIhQB7EdoEplOLWEiY",
+      };
+
+      const response = await axios.post(
+        "https://api.zoom.us/v2/users/ayman159@live.com/meetings",
+        body,
+        {
+          headers: headers,
+        }
+      );
+
+      link = response.data.start_url;
+
+      req.body.zoom = link;
       const newSession = await Session.create(req.body);
+
       res.status(201);
       res.json(newSession);
     } else {
