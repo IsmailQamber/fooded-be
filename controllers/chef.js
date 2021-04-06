@@ -125,7 +125,7 @@ exports.addSession = async (req, res, next) => {
 
       const headers = {
         authorization:
-          "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOm51bGwsImlzcyI6IkxfRGdDODI5VGgybEtpQkNSeXhwYUEiLCJleHAiOjE2MTc3MTAxMjMsImlhdCI6MTYxNzcwNDcyMn0.OI9ST6VSg9r79jBkbeC-xGGn3ZahEH7xvxG_D5I5-88",
+          "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOm51bGwsImlzcyI6IkxfRGdDODI5VGgybEtpQkNSeXhwYUEiLCJleHAiOjE2MTc3OTU4OTUsImlhdCI6MTYxNzcwOTQ5NH0.ONJsw9Nq6R68Yrgg8xKGmlFgmdhyNrSGUBtqpoaKrhM",
       };
 
       const response = await axios.post(
@@ -135,8 +135,8 @@ exports.addSession = async (req, res, next) => {
           headers: headers,
         }
       );
-
-      link = response.data.start_url;
+      console.log(response);
+      link = response.data.join_url;
 
       req.body.zoom = link;
       const newSession = await Session.create(req.body);
