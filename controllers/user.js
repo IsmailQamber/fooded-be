@@ -6,7 +6,7 @@ const sgMail = require("@sendgrid/mail");
 const { signupEmail } = require("./email");
 
 const userPayload = (user) => {
-  payload = {
+  const payload = {
     id: user.id,
     username: user.username,
     userType: user.userType,
@@ -20,6 +20,7 @@ const userPayload = (user) => {
     city: user.city,
     exp: Date.now() + JWT_EXPIRATION_MS,
   };
+  return payload;
 };
 
 exports.signup = async (req, res, next) => {
@@ -51,8 +52,7 @@ exports.signup = async (req, res, next) => {
 exports.signin = (req, res) => {
   const { user } = req;
 
-  userPayload(user);
-  const token = jwt.sign(JSON.stringify(user), JWT_SECRET);
+  const token = jwt.sign(JSON.stringify(userPayload(user)), JWT_SECRET);
   res.status(201).json({ token });
 };
 
