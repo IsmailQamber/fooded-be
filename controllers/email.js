@@ -54,3 +54,21 @@ exports.editEmail = async (user, session) => {
     console.error(error);
   }
 };
+
+exports.signupEmail = async (user) => {
+  sgMail.setApiKey(SENDGRID);
+
+  const msg = {
+    to: "fooded.bh@gmail.com", //user.email,
+    from: "fooded.bh@gmail.com", // Change to our verified sender when created (info@fooded.com)
+    subject: "Sign Up confirmation",
+    text: "Registration confirmed",
+    html: "<strong>Registration Confirmed</strong>",
+  };
+  try {
+    await sgMail.send(msg);
+    console.log("Email sent");
+  } catch (error) {
+    console.error(error);
+  }
+};

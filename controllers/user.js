@@ -1,11 +1,11 @@
 const bcrypt = require("bcrypt");
 const { User } = require("../db/models");
 const jwt = require("jsonwebtoken");
-const { JWT_SECRET, JWT_EXPIRATION_MS, SENDGRID } = require("../config/keys");
-const sgMail = require("@sendgrid/mail");
+const { JWT_SECRET, JWT_EXPIRATION_MS } = require("../config/keys");
+const { signupEmail } = require("./email");
 
 const userPayload = (user) => {
-  payload = {
+  const payload = {
     id: user.id,
     username: user.username,
     userType: user.userType,
@@ -19,26 +19,7 @@ const userPayload = (user) => {
     city: user.city,
     exp: Date.now() + JWT_EXPIRATION_MS,
   };
-};
-
-const email = (user) => {
-  sgMail.setApiKey(SENDGRID);
-
-  const msg = {
-    to: user.email,
-    from: "ayman159@live.com", // Change to our verified sender when created (info@fooded.com)
-    subject: "Sign Up confirmation",
-    text: "Registration confirmed",
-    html: "<strong>Registration Confirmed</strong>",
-  };
-  sgMail
-    .send(msg)
-    .then(() => {
-      console.log("Email sent");
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+  return payload;
 };
 
 exports.signup = async (req, res, next) => {
@@ -51,7 +32,7 @@ exports.signup = async (req, res, next) => {
     req.body.password = hashedPassword;
     const newUser = await User.create(req.body);
 
-    email(newUser);
+    signupEmail(newUser);
 
     const payload = {
       id: newUser.id,
@@ -70,8 +51,7 @@ exports.signup = async (req, res, next) => {
 exports.signin = (req, res) => {
   const { user } = req;
 
-  userPayload(user);
-  const token = jwt.sign(JSON.stringify(user), JWT_SECRET);
+  const token = jwt.sign(JSON.stringify(userPayload(user)), JWT_SECRET);
   res.status(201).json({ token });
 };
 
