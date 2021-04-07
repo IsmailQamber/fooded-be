@@ -1,8 +1,7 @@
 const bcrypt = require("bcrypt");
 const { User } = require("../db/models");
 const jwt = require("jsonwebtoken");
-const { JWT_SECRET, JWT_EXPIRATION_MS, SENDGRID } = require("../config/keys");
-const sgMail = require("@sendgrid/mail");
+const { JWT_SECRET, JWT_EXPIRATION_MS } = require("../config/keys");
 const { signupEmail } = require("./email");
 
 const userPayload = (user) => {
