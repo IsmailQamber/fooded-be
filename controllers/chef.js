@@ -98,7 +98,6 @@ exports.removeRecipe = async (req, res, next) => {
 };
 
 exports.addSession = async (req, res, next) => {
-  let link = null;
   try {
     if (req.user.id === req.chef.userId) {
       const body = {
@@ -138,9 +137,8 @@ exports.addSession = async (req, res, next) => {
         }
       );
 
-      link = response.data.join_url;
+      req.body.zoom = response.data.join_url;
 
-      req.body.zoom = link;
       const newSession = await Session.create(req.body);
       addEmail(req.user, newSession);
 
@@ -177,6 +175,47 @@ exports.updateSession = async (req, res, next) => {
       );
 
       const userEmails = usersData.map((U) => U.dataValues.email);
+
+      //zoom link generator
+      const body = {
+        topic: "cooking",
+        type: 1,
+        start_time: `${req.body.date}-${req.body.time}`,
+        duration: 45,
+        schedule_for: "fooded.bh@gmail.com", //chenge to info@fooded.com
+        timezone: "Asia/Bahrain",
+        password: "123456",
+        settings: {
+          host_video: true,
+          participant_video: true,
+          cn_meeting: false,
+          in_meeting: true,
+          join_before_host: false,
+          mute_upon_entry: true,
+          watermark: false,
+          use_pmi: false,
+          approval_type: 2,
+          audio: "both",
+          auto_recording: "cloud",
+          registrants_email_notification: true,
+        },
+      };
+
+      const headers = {
+        authorization:
+          "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOm51bGwsImlzcyI6IkxfRGdDODI5VGgybEtpQkNSeXhwYUEiLCJleHAiOjE2MTc3OTU4OTUsImlhdCI6MTYxNzcwOTQ5NH0.ONJsw9Nq6R68Yrgg8xKGmlFgmdhyNrSGUBtqpoaKrhM",
+      };
+
+      const response = await axios.post(
+        "https://api.zoom.us/v2/users/fooded.bh@gmail.com/meetings",
+        body,
+        {
+          headers: headers,
+        }
+      );
+
+      req.body.zoom = response.data.join_url;
+
       const updatedSession = await req.session.update(req.body);
       editEmail(userEmails, req.session);
       res.status(200).json(updatedSession);

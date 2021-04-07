@@ -3,6 +3,7 @@ const { User } = require("../db/models");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET, JWT_EXPIRATION_MS, SENDGRID } = require("../config/keys");
 const sgMail = require("@sendgrid/mail");
+const { signupEmail } = require("./email");
 
 const userPayload = (user) => {
   payload = {
@@ -21,26 +22,6 @@ const userPayload = (user) => {
   };
 };
 
-const email = (user) => {
-  sgMail.setApiKey(SENDGRID);
-
-  const msg = {
-    to: user.email,
-    from: "ayman159@live.com", // Change to our verified sender when created (info@fooded.com)
-    subject: "Sign Up confirmation",
-    text: "Registration confirmed",
-    html: "<strong>Registration Confirmed</strong>",
-  };
-  sgMail
-    .send(msg)
-    .then(() => {
-      console.log("Email sent");
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-};
-
 exports.signup = async (req, res, next) => {
   try {
     if (req.file) {
@@ -51,7 +32,7 @@ exports.signup = async (req, res, next) => {
     req.body.password = hashedPassword;
     const newUser = await User.create(req.body);
 
-    email(newUser);
+    signupEmail(newUser);
 
     const payload = {
       id: newUser.id,
