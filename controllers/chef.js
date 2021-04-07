@@ -1,7 +1,7 @@
 const { Chef, Recipe, Session, Booking, User } = require("../db/models");
 const axios = require("axios");
 const { Op } = require("sequelize");
-const { addEmail, editEmail } = require("./email");
+const { addEmail, editEmail, cancelEmail } = require("./email");
 
 exports.fetchChefs = async (chefId, next) => {
   try {
@@ -126,7 +126,7 @@ exports.addSession = async (req, res, next) => {
 
       const headers = {
         authorization:
-          "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOm51bGwsImlzcyI6IkxfRGdDODI5VGgybEtpQkNSeXhwYUEiLCJleHAiOjE2MTc3OTU4OTUsImlhdCI6MTYxNzcwOTQ5NH0.ONJsw9Nq6R68Yrgg8xKGmlFgmdhyNrSGUBtqpoaKrhM",
+          "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOm51bGwsImlzcyI6IkxfRGdDODI5VGgybEtpQkNSeXhwYUEiLCJleHAiOjE2NDkzMjkyMDAsImlhdCI6MTYxNzgwMDYwNn0.v4ezC1BepQvlhMHRLIo7KWQ8-F4Y_IGh9pbi1Mq3ywU",
       };
 
       const response = await axios.post(
@@ -141,7 +141,7 @@ exports.addSession = async (req, res, next) => {
 
       const newSession = await Session.create(req.body);
       addEmail(req.user, newSession);
-
+      console.log(req.body);
       res.status(201);
       res.json(newSession);
     } else {
@@ -155,6 +155,7 @@ exports.addSession = async (req, res, next) => {
 };
 
 exports.updateSession = async (req, res, next) => {
+  console.log(req.body);
   try {
     if (
       req.user.id === req.chef.userId &&
@@ -203,7 +204,7 @@ exports.updateSession = async (req, res, next) => {
 
       const headers = {
         authorization:
-          "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOm51bGwsImlzcyI6IkxfRGdDODI5VGgybEtpQkNSeXhwYUEiLCJleHAiOjE2MTc3OTU4OTUsImlhdCI6MTYxNzcwOTQ5NH0.ONJsw9Nq6R68Yrgg8xKGmlFgmdhyNrSGUBtqpoaKrhM",
+          "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOm51bGwsImlzcyI6IkxfRGdDODI5VGgybEtpQkNSeXhwYUEiLCJleHAiOjE2NDkzMjkyMDAsImlhdCI6MTYxNzgwMDYwNn0.v4ezC1BepQvlhMHRLIo7KWQ8-F4Y_IGh9pbi1Mq3ywU",
       };
 
       const response = await axios.post(
@@ -219,6 +220,43 @@ exports.updateSession = async (req, res, next) => {
       const updatedSession = await req.session.update(req.body);
       editEmail(userEmails, req.session);
       res.status(200).json(updatedSession);
+    } else {
+      const error = new Error("not your session");
+      error.status = 401;
+      next(error);
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.removeSession = async (req, res, next) => {
+  try {
+    if (
+      req.user.id === req.chef.userId &&
+      req.session.recipeId === req.recipe.id &&
+      req.recipe.chefId === req.chef.id
+    ) {
+      //finding users that booked this session
+      const bookings = await Booking.findAll({
+        where: { sessionId: { [Op.eq]: req.session.id } },
+      });
+      const sessionBookings = bookings.map((booking) => booking.id);
+
+      let sessionUsers = bookings.map((booking) => booking.dataValues.userId);
+
+      const allUsers = await User.findAll({});
+
+      const usersData = allUsers.filter((usrs) =>
+        sessionUsers.find((usr) => usrs.id === usr)
+      );
+
+      const userEmails = usersData.map((U) => U.dataValues.email);
+      cancelEmail(userEmails, req.session);
+      await req.session.destroy();
+      await Booking.destroy({ where: { id: sessionBookings } });
+      res.status(204);
+      res.end();
     } else {
       const error = new Error("not your session");
       error.status = 401;
