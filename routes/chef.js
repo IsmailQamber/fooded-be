@@ -13,6 +13,7 @@ const {
   removeRecipe,
   addSession,
   updateSession,
+  removeSession,
 } = require("../controllers/chef");
 const { fetchRecipes } = require("../controllers/recipe");
 const { fetchSessions } = require("../controllers/session");
@@ -85,6 +86,12 @@ router.put(
   "/:chefId/recipes/:recipeId/sessions/:sessionId",
   passport.authenticate("jwt", { session: false }),
   updateSession
+);
+
+router.delete(
+  "/:chefId/recipes/:recipeId/sessions/:sessionId",
+  passport.authenticate("jwt", { session: false }),
+  removeSession
 );
 
 module.exports = router;

@@ -1,4 +1,5 @@
 const sgMail = require("@sendgrid/mail");
+const { session } = require("passport");
 const { SENDGRID } = require("../config/keys");
 
 exports.email = async (user, session) => {
@@ -64,6 +65,24 @@ exports.signupEmail = async (user) => {
     subject: "Sign Up confirmation",
     text: "Registration confirmed",
     html: "<strong>Registration Confirmed</strong>",
+  };
+  try {
+    await sgMail.send(msg);
+    console.log("Email sent");
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+exports.cancelEmail = async (user, session) => {
+  sgMail.setApiKey(SENDGRID);
+
+  const msg = {
+    to: "fooded.bh@gmail.com", //user
+    from: "fooded.bh@gmail.com", // Change to our verified sender when created (info@fooded.com)
+    subject: "Session Cancelled",
+    text: `Your session on: ${session.date}, at: ${session.time} has unfortunately been cancelled مسامحة`,
+    html: `<strong>Your session on: ${session.date}, at: ${session.time} has unfortunately been cancelled مسامحة</strong>`,
   };
   try {
     await sgMail.send(msg);
