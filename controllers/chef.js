@@ -2,6 +2,7 @@ const { Chef, Recipe, Session, Booking, User } = require("../db/models");
 const axios = require("axios");
 const { Op } = require("sequelize");
 const { addEmail, editEmail, cancelEmail } = require("./email");
+const { zoom_key, zoom_url } = require("../config/keys");
 
 exports.fetchChefs = async (chefId, next) => {
   try {
@@ -125,17 +126,12 @@ exports.addSession = async (req, res, next) => {
       };
 
       const headers = {
-        authorization:
-          "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOm51bGwsImlzcyI6IkxfRGdDODI5VGgybEtpQkNSeXhwYUEiLCJleHAiOjE2NDkzMjkyMDAsImlhdCI6MTYxNzgwMDYwNn0.v4ezC1BepQvlhMHRLIo7KWQ8-F4Y_IGh9pbi1Mq3ywU",
+        authorization: zoom_key,
       };
 
-      const response = await axios.post(
-        "https://api.zoom.us/v2/users/fooded.bh@gmail.com/meetings",
-        body,
-        {
-          headers: headers,
-        }
-      );
+      const response = await axios.post(zoom_url, body, {
+        headers: headers,
+      });
 
       req.body.zoom = response.data.join_url;
 
