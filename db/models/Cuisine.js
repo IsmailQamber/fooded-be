@@ -5,6 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     "Cuisine",
     {
       slug: { type: DataTypes.STRING, unique: true },
+      image: { type: DataTypes.TEXT },
       name: { type: DataTypes.STRING, unique: true },
     },
     { timestamps: false }
