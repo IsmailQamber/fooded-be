@@ -58,4 +58,13 @@ db.Booking.belongsTo(db.Session, { as: "session" });
 db.User.hasMany(db.Booking, { as: "booking", foreignKey: "sessionId" });
 db.Booking.belongsTo(db.User, { as: "user" });
 
+db.Recipe.belongsToMany(db.Ingredient, {
+  through: db.IngredientRecipe,
+  foreignKey: "RecipeId",
+});
+db.Ingredient.belongsToMany(db.Recipe, {
+  through: db.IngredientRecipe,
+  foreignKey: "IngredientId",
+});
+
 module.exports = db;

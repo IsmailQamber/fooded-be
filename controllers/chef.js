@@ -3,6 +3,8 @@ const axios = require("axios");
 const { Op } = require("sequelize");
 const { addEmail, editEmail, cancelEmail } = require("./email");
 const { zoom_key, zoom_url } = require("../config/keys");
+const IngredientRecipe = require("../db/models/IngredientRecipe");
+const ingredient = require("../db/models/ingredient");
 
 exports.fetchChefs = async (chefId, next) => {
   try {
@@ -51,9 +53,20 @@ exports.addRecipe = async (req, res, next) => {
         req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
       }
       req.body.chefId = req.chef.id;
-      const newRecipe = await Recipe.create(req.body);
-      res.status(201);
-      res.json(newRecipe);
+      if (req.body.ingredientDescription) {
+        console.log(req.body.ingredientDescription);
+        const newRecipe = await Recipe.create(req.body);
+        req.body.ingredientDescription.map(async (ingredient) => {
+          console.log(ingredient);
+          const data = {
+            RecipeId: req.body.id,
+            IngredientId: ingredient,
+          };
+          await IngredientRecipe.create(data);
+        });
+        res.status(201);
+        res.json(newRecipe);
+      }
     } else {
       const error = new Error("not your recipe");
       error.status = 401;
