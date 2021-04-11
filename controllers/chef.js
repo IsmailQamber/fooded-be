@@ -3,8 +3,7 @@ const axios = require("axios");
 const { Op } = require("sequelize");
 const { addEmail, editEmail, cancelEmail } = require("./email");
 const { zoom_key, zoom_url } = require("../config/keys");
-const IngredientRecipe = require("../db/models/IngredientRecipe");
-const ingredient = require("../db/models/ingredient");
+const { IngredientRecipe } = require("../db/models");
 
 exports.fetchChefs = async (chefId, next) => {
   try {
@@ -54,13 +53,13 @@ exports.addRecipe = async (req, res, next) => {
       }
       req.body.chefId = req.chef.id;
       if (req.body.ingredientDescription) {
-        // console.log(req.body.ingredientDescription);
+        console.log(req.body.ingredientDescription);
         const newRecipe = await Recipe.create(req.body);
         const ingredients = req.body.ingredientDescription.map(
           (ingredient) => ({
             // console.log(ingredient);
 
-            ingredientId: ingredient,
+            IngredientId: ingredient,
             RecipeId: newRecipe.id,
 
             // console.log(newRecipe.id);
