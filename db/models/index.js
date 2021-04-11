@@ -55,7 +55,10 @@ db.Session.belongsTo(db.Recipe, { as: "recipe" });
 db.Session.hasMany(db.Booking, { as: "booking", foreignKey: "sessionId" });
 db.Booking.belongsTo(db.Session, { as: "session" });
 
-db.User.hasMany(db.Booking, { as: "booking", foreignKey: "sessionId" });
+db.User.hasMany(db.Booking, { as: "booking", foreignKey: "userId" });
 db.Booking.belongsTo(db.User, { as: "user" });
+
+db.Cuisine.hasMany(db.Recipe, { as: "recipe", foreignKey: "cuisineId" });
+db.Recipe.belongsTo(db.Cuisine, { as: "cuisine" });
 
 module.exports = db;
