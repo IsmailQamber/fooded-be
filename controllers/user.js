@@ -17,6 +17,7 @@ const userPayload = (user) => {
     road: user.road,
     block: user.block,
     city: user.city,
+    isChef: user.isChef,
     exp: Date.now() + JWT_EXPIRATION_MS,
   };
   return payload;
