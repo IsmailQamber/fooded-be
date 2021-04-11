@@ -54,16 +54,20 @@ exports.addRecipe = async (req, res, next) => {
       }
       req.body.chefId = req.chef.id;
       if (req.body.ingredientDescription) {
-        console.log(req.body.ingredientDescription);
+        // console.log(req.body.ingredientDescription);
         const newRecipe = await Recipe.create(req.body);
-        req.body.ingredientDescription.map(async (ingredient) => {
-          console.log(ingredient);
-          const data = {
-            RecipeId: req.body.id,
-            IngredientId: ingredient,
-          };
-          await IngredientRecipe.create(data);
-        });
+        const ingredients = req.body.ingredientDescription.map(
+          (ingredient) => ({
+            // console.log(ingredient);
+
+            ingredientId: ingredient,
+            RecipeId: newRecipe.id,
+
+            // console.log(newRecipe.id);
+          })
+        );
+        console.log(ingredients);
+        const relation = IngredientRecipe.bulkCreate(ingredients);
         res.status(201);
         res.json(newRecipe);
       }
