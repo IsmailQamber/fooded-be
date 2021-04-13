@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     time: { type: DataTypes.TIME, allowNull: false },
     zoom: { type: DataTypes.TEXT },
+    cuisineId: { type: DataTypes.INTEGER },
   });
 
   return Session;
