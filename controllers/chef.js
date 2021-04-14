@@ -151,6 +151,8 @@ exports.addSession = async (req, res, next) => {
       const recipe = await Recipe.findAll({ where: { id: req.body.recipeId } });
       req.body.zoom = response.data.join_url;
       req.body.cuisineId = recipe[0].dataValues.cuisineId;
+      req.body.recipeName = recipe[0].dataValues.name;
+
       const newSession = await Session.create(req.body);
 
       addEmail(req.user, newSession);
@@ -168,7 +170,6 @@ exports.addSession = async (req, res, next) => {
 };
 
 exports.updateSession = async (req, res, next) => {
-  console.log(req.body);
   try {
     if (
       req.user.id === req.chef.userId &&
@@ -229,6 +230,11 @@ exports.updateSession = async (req, res, next) => {
       );
 
       req.body.zoom = response.data.join_url;
+
+      const recipe = await Recipe.findAll({ where: { id: req.body.recipeId } });
+      req.body.zoom = response.data.join_url;
+      req.body.cuisineId = recipe[0].dataValues.cuisineId;
+      req.body.recipeName = recipe[0].dataValues.name;
 
       const updatedSession = await req.session.update(req.body);
       editEmail(userEmails, req.session);
