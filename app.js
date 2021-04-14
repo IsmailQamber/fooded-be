@@ -6,7 +6,12 @@ const recipeRoutes = require("./routes/recipe");
 const sessionRoutes = require("./routes/session");
 const chefRoutes = require("./routes/chef");
 const bookingRoutes = require("./routes/booking");
+
+const ingredientsRoutes = require("./routes/ingredient");
+const IngredientReicpeRoutes = require("./routes/ingredientRecipe");
+
 const cuisineRoutes = require("./routes/cuisine");
+
 const passport = require("passport");
 const { localStrategy, jwtStrategy } = require("./middleware/passport");
 const path = require("path");
@@ -26,6 +31,8 @@ app.use("/chefs", chefRoutes);
 app.use("/recipes", recipeRoutes);
 app.use("/sessions", sessionRoutes);
 app.use("/booking", bookingRoutes);
+app.use("/relation", IngredientReicpeRoutes);
+app.use("/ingredients", ingredientsRoutes);
 app.use("/cuisine", cuisineRoutes);
 app.use("/media", express.static(path.join(__dirname, "media")));
 
