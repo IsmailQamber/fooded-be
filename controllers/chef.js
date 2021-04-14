@@ -148,12 +148,13 @@ exports.addSession = async (req, res, next) => {
       const response = await axios.post(zoom_url, body, {
         headers: headers,
       });
-
+      const recipe = await Recipe.findAll({ where: { id: req.body.recipeId } });
       req.body.zoom = response.data.join_url;
-
+      req.body.cuisineId = recipe[0].dataValues.cuisineId;
       const newSession = await Session.create(req.body);
+
       addEmail(req.user, newSession);
-      console.log(req.body);
+
       res.status(201);
       res.json(newSession);
     } else {
