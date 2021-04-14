@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
     ingredientDescription: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
     },
     image: {

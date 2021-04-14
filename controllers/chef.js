@@ -46,25 +46,25 @@ exports.detailChef = async (req, res, next) => {
 };
 
 exports.addRecipe = async (req, res, next) => {
+  console.log(req.body);
   try {
     if (req.user.id === req.chef.userId) {
       if (req.file) {
         req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
       }
       req.body.chefId = req.chef.id;
-      if (req.body.ingredientDescription) {
-        console.log(req.body.ingredientDescription);
+      if (req.body.ingredientId) {
+        console.log(req.body.ingredientId);
+        req.body.ingredientId = req.body.ingredientId.split(",");
         const newRecipe = await Recipe.create(req.body);
-        const ingredients = req.body.ingredientDescription.map(
-          (ingredient) => ({
-            // console.log(ingredient);
+        const ingredients = req.body.ingredientId.map((ingredient) => ({
+          // console.log(ingredient);
 
-            IngredientId: ingredient,
-            RecipeId: newRecipe.id,
+          IngredientId: ingredient,
+          RecipeId: newRecipe.id,
 
-            // console.log(newRecipe.id);
-          })
-        );
+          // console.log(newRecipe.id);
+        }));
         console.log(ingredients);
         const relation = IngredientRecipe.bulkCreate(ingredients);
         res.status(201);
